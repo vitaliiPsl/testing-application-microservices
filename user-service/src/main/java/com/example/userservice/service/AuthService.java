@@ -1,5 +1,7 @@
 package com.example.userservice.service;
 
+import com.example.userservice.payload.SignInRequestDto;
+import com.example.userservice.payload.SignInResponseDto;
 import com.example.userservice.payload.UserDto;
 
 /**
@@ -14,4 +16,12 @@ public interface AuthService {
      * @return registered user
      */
     UserDto signUp(UserDto userDto);
+
+    /**
+     * Authenticate the user with given credentials
+     *
+     * @param request credentials of the user
+     * @return sign in response that contains the JWT token
+     */
+    SignInResponseDto signIn(SignInRequestDto request);
 }

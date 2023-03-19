@@ -2,12 +2,18 @@ package com.example.userservice.service.impl;
 
 import com.example.userservice.exception.ResourceAlreadyExistException;
 import com.example.userservice.model.User;
+import com.example.userservice.payload.SignInRequestDto;
+import com.example.userservice.payload.SignInResponseDto;
 import com.example.userservice.payload.UserDto;
 import com.example.userservice.repository.UserRepository;
 import com.example.userservice.service.AuthService;
+import com.example.userservice.service.JwtService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -21,7 +27,9 @@ import java.util.Optional;
 @Transactional
 public class AuthServiceImpl implements AuthService {
     private final UserRepository userRepository;
+    private final JwtService jwtService;
     private final PasswordEncoder passwordEncoder;
+    private final AuthenticationManager authManager;
     private final ModelMapper mapper;
 
     @Override
@@ -40,6 +48,20 @@ public class AuthServiceImpl implements AuthService {
         userRepository.save(user);
 
         return mapUserToUserDto(user);
+    }
+
+    @Override
+    public SignInResponseDto signIn(SignInRequestDto request) {
+        log.debug("Authenticate user: {}", request.getEmail());
+
+        Authentication authentication = new UsernamePasswordAuthenticationToken(request.getEmail(), request.getPassword());
+        authentication = authManager.authenticate(authentication);
+
+        // authentication principal
+        User user = (User) authentication.getPrincipal();
+
+        String token = jwtService.createToken(user);
+        return new SignInResponseDto(token);
     }
 
     private User createUser(UserDto userDto) {

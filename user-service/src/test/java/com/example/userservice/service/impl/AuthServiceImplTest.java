@@ -2,14 +2,22 @@ package com.example.userservice.service.impl;
 
 import com.example.userservice.exception.ResourceAlreadyExistException;
 import com.example.userservice.model.User;
+import com.example.userservice.payload.SignInRequestDto;
+import com.example.userservice.payload.SignInResponseDto;
 import com.example.userservice.payload.UserDto;
 import com.example.userservice.repository.UserRepository;
+import com.example.userservice.service.JwtService;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.*;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.modelmapper.ModelMapper;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.BadCredentialsException;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.authentication.preauth.PreAuthenticatedAuthenticationToken;
 
 import java.util.Optional;
 
@@ -26,13 +34,20 @@ class AuthServiceImplTest {
     UserRepository userRepository;
 
     @Mock
+    JwtService jwtService;
+
+    @Mock
     PasswordEncoder passwordEncoder;
+
+    @Mock
+    AuthenticationManager authManager;
 
     @Spy
     ModelMapper mapper;
 
     @InjectMocks
     AuthServiceImpl authService;
+
 
     @Captor
     ArgumentCaptor<User> userCaptor;
@@ -85,5 +100,54 @@ class AuthServiceImplTest {
         // then
         assertThrows(ResourceAlreadyExistException.class, () -> authService.signUp(userDto));
         verify(userRepository).findByEmail(userDto.getEmail());
+    }
+
+    @Test
+    void whenSignIn_givenCredentialsAreValid_thenGenerateJwt() {
+        // given
+        String email = "j.doe@mail.com";
+        String password = "password";
+        String jwt = "eyJ0eXA.eyJzdWIi.Ou-2-0gYTg";
+
+        SignInRequestDto request = SignInRequestDto.builder()
+                .email(email)
+                .password(password)
+                .build();
+
+
+        Authentication auth = new UsernamePasswordAuthenticationToken(email, password);
+
+        User user = User.builder().id("1234").email("j.doe@mail.com").build();
+        Authentication verified = new PreAuthenticatedAuthenticationToken(user, "");
+
+        // when
+        when(authManager.authenticate(auth)).thenReturn(verified);
+        when(jwtService.createToken(user)).thenReturn(jwt);
+
+        SignInResponseDto response = authService.signIn(request);
+
+        // then
+        verify(authManager).authenticate(auth);
+        verify(jwtService).createToken(user);
+
+        assertThat(response.getToken(), is(jwt));
+    }
+
+    @Test
+    void whenSignIn_givenCredentialsAreInvalid_thenThrowException() {
+        // given
+        String email = "j.doe@mail.com";
+        String password = "password";
+
+        SignInRequestDto request = SignInRequestDto.builder().email(email).password(password).build();
+
+        Authentication auth = new UsernamePasswordAuthenticationToken(email, password);
+
+        // when
+        when(authManager.authenticate(auth)).thenThrow(new BadCredentialsException("Invalid password"));
+
+        // then
+        assertThrows(BadCredentialsException.class, () -> authService.signIn(request));
+        verify(authManager).authenticate(auth);
     }
 }

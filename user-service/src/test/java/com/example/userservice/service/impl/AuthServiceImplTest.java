@@ -2,8 +2,10 @@ package com.example.userservice.service.impl;
 
 import com.example.userservice.exception.ResourceAlreadyExistException;
 import com.example.userservice.model.User;
+import com.example.userservice.model.UserRole;
 import com.example.userservice.payload.SignInRequestDto;
 import com.example.userservice.payload.SignInResponseDto;
+import com.example.userservice.payload.TokenExchangeRequestDto;
 import com.example.userservice.payload.UserDto;
 import com.example.userservice.repository.UserRepository;
 import com.example.userservice.service.JwtService;
@@ -149,5 +151,62 @@ class AuthServiceImplTest {
         // then
         assertThrows(BadCredentialsException.class, () -> authService.signIn(request));
         verify(authManager).authenticate(auth);
+    }
+
+
+    @Test
+    void givenExchangeToken_whenTokenIsValidAndUserExist_thenReturnUser() {
+        // given
+        String token = "eyJ0eXA.eyJzdWIi.Ou-2-0gYTg";
+        TokenExchangeRequestDto request = new TokenExchangeRequestDto(token);
+
+        String userId = "1234-qwer";
+        User user = User.builder().id(userId).email("j.doe@mail.com").role(UserRole.EDUCATOR).build();
+
+        // when
+        when(jwtService.decodeToken(token)).thenReturn(userId);
+        when(userRepository.findById(userId)).thenReturn(Optional.of(user));
+
+        UserDto res = authService.exchangeToken(request);
+
+        // then
+        verify(jwtService).decodeToken(token);
+        verify(userRepository).findById(userId);
+        verify(mapper).map(user, UserDto.class);
+
+        assertThat(res.getId(), is(userId));
+        assertThat(res.getEmail(), is(user.getEmail()));
+    }
+
+    @Test
+    void givenExchangeToken_whenUserDoesntExist_thenThrowException() {
+        // given
+        String token = "eyJ0eXA.eyJzdWIi.Ou-2-0gYTg";
+        TokenExchangeRequestDto request = new TokenExchangeRequestDto(token);
+
+        String userId = "1234-qwer";
+
+        // when
+        when(jwtService.decodeToken(token)).thenReturn(userId);
+        when(userRepository.findById(userId)).thenReturn(Optional.empty());
+
+        // then
+        assertThrows(RuntimeException.class, () -> authService.exchangeToken(request));
+        verify(jwtService).decodeToken(token);
+        verify(userRepository).findById(userId);
+    }
+
+    @Test
+    void givenExchangeToken_whenTokenIsInvalid_thenThrowException() {
+        // given
+        String token = "eyJ0eXA.eyJzdWIi.Ou-2-0gYTg";
+        TokenExchangeRequestDto request = new TokenExchangeRequestDto(token);
+
+        // when
+        when(jwtService.decodeToken(token)).thenThrow(new RuntimeException());
+
+        // then
+        assertThrows(RuntimeException.class, () -> authService.exchangeToken(request));
+        verify(jwtService).decodeToken(token);
     }
 }

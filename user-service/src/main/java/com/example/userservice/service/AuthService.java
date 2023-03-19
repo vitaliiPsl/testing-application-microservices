@@ -2,6 +2,7 @@ package com.example.userservice.service;
 
 import com.example.userservice.payload.SignInRequestDto;
 import com.example.userservice.payload.SignInResponseDto;
+import com.example.userservice.payload.TokenExchangeRequestDto;
 import com.example.userservice.payload.UserDto;
 
 /**
@@ -24,4 +25,12 @@ public interface AuthService {
      * @return sign in response that contains the JWT token
      */
     SignInResponseDto signIn(SignInRequestDto request);
+
+    /**
+     * Exchange jwt token to user dto
+     *
+     * @param request jwt token exchange request
+     * @return user to whom the token belongs
+     */
+    UserDto exchangeToken(TokenExchangeRequestDto request);
 }

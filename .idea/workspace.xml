@@ -5,6 +5,14 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="9b89f513-be79-4787-adde-24c34f89df45" name="Changes" comment="Create config service">
+      <change afterPath="$PROJECT_DIR$/discovery-service/gradle/wrapper/gradle-wrapper.jar" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/discovery-service/gradle/wrapper/gradle-wrapper.properties" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/discovery-service/gradlew" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/discovery-service/gradlew.bat" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/discovery-service/settings.gradle" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/discovery-service/src/main/resources/application.properties" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/discovery-service/src/test/java/com/example/discoveryservice/DiscoveryServiceApplicationTests.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/gradle.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/gradle.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/vcs.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
@@ -16,6 +24,9 @@
   </component>
   <component name="ExternalProjectsData">
     <projectState path="$PROJECT_DIR$/config-service">
+      <ProjectState />
+    </projectState>
+    <projectState path="$PROJECT_DIR$/discovery-service">
       <ProjectState />
     </projectState>
   </component>
@@ -61,9 +72,26 @@
     "node.js.selected.package.tslint": "(autodetect)",
     "nodejs_package_manager_path": "npm",
     "settings.editor.selected.configurable": "preferences.pluginManager",
+    "spring.configuration.checksum": "902d78dda50ff1e5feb9eaf030302af8",
     "vue.rearranger.settings.migration": "true"
   }
 }]]></component>
+  <component name="RunManager" selected="Spring Boot.DiscoveryServiceApplication">
+    <configuration name="ConfigServiceApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" nameIsGenerated="true">
+      <module name="config-service.main" />
+      <option name="SPRING_BOOT_MAIN_CLASS" value="com.example.configservice.ConfigServiceApplication" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="DiscoveryServiceApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" nameIsGenerated="true">
+      <module name="discovery-service.main" />
+      <option name="SPRING_BOOT_MAIN_CLASS" value="com.example.discoveryservice.DiscoveryServiceApplication" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+  </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
@@ -74,6 +102,7 @@
       <updated>1679236576996</updated>
       <workItem from="1679236578047" duration="132000" />
       <workItem from="1679236721642" duration="1312000" />
+      <workItem from="1679239691629" duration="207000" />
     </task>
     <task id="LOCAL-00001" summary="Init commit">
       <created>1679236749955</created>

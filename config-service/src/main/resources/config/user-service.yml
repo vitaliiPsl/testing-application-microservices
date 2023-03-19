@@ -1,0 +1,22 @@
+spring:
+  data:
+    mongodb:
+      host: localhost
+      port: 27017
+      username: root
+      password: root
+      database: testing-user-db
+      authentication-database: admin
+      auto-index-creation: true
+users:
+  default:
+    nickname: default
+    email: default@mail.com
+    password: password
+security:
+  jwt:
+    secret: jwt.super.secret.key
+    # token expires in 7 days
+    token-expiration-time-min: 10080
+server:
+  port: 8111

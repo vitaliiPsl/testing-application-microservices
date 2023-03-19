@@ -4,19 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="9b89f513-be79-4787-adde-24c34f89df45" name="Changes" comment="Create config service">
-      <change afterPath="$PROJECT_DIR$/discovery-service/gradle/wrapper/gradle-wrapper.jar" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/discovery-service/gradle/wrapper/gradle-wrapper.properties" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/discovery-service/gradlew" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/discovery-service/gradlew.bat" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/discovery-service/settings.gradle" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/discovery-service/src/main/resources/application.properties" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/discovery-service/src/test/java/com/example/discoveryservice/DiscoveryServiceApplicationTests.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/gradle.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/gradle.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/vcs.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-    </list>
+    <list default="true" id="9b89f513-be79-4787-adde-24c34f89df45" name="Changes" comment="Create config service" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -49,6 +37,7 @@
   </component>
   <component name="Git.Settings">
     <option name="RESET_MODE" value="MIXED" />
+    <option name="ROOT_SYNC" value="SYNC" />
   </component>
   <component name="MarkdownSettingsMigration">
     <option name="stateVersion" value="1" />
@@ -102,7 +91,7 @@
       <updated>1679236576996</updated>
       <workItem from="1679236578047" duration="132000" />
       <workItem from="1679236721642" duration="1312000" />
-      <workItem from="1679239691629" duration="207000" />
+      <workItem from="1679239691629" duration="514000" />
     </task>
     <task id="LOCAL-00001" summary="Init commit">
       <created>1679236749955</created>

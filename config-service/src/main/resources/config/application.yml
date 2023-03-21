@@ -13,3 +13,6 @@ eureka:
   instance:
     prefer-ip-address: true
     instance-id: ${spring.application.name}:${random.value}
+
+auth:
+  token-exchange-url: http://user-service/api/auth/token

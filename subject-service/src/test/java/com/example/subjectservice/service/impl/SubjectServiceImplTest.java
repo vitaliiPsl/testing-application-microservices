@@ -1,4 +1,4 @@
-package com.example.subjectservice;
+package com.example.subjectservice.service.impl;
 
 import com.example.subjectservice.exception.ForbiddenException;
 import com.example.subjectservice.exception.ResourceNotFoundException;
@@ -7,7 +7,6 @@ import com.example.subjectservice.payload.SubjectDto;
 import com.example.subjectservice.payload.auth.UserDto;
 import com.example.subjectservice.payload.auth.UserRole;
 import com.example.subjectservice.repository.SubjectRepository;
-import com.example.subjectservice.service.impl.SubjectServiceImpl;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.*;
@@ -27,6 +26,7 @@ import static org.mockito.Mockito.when;
 class SubjectServiceImplTest {
     @Mock
     SubjectRepository subjectRepository;
+
     @Spy
     ModelMapper mapper;
 

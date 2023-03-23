@@ -16,3 +16,7 @@ eureka:
 
 auth:
   token-exchange-url: http://user-service/api/auth/token
+
+logging:
+  level:
+    com.example: DEBUG

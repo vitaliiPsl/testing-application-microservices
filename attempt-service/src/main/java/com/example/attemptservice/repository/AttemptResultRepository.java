@@ -12,4 +12,6 @@ public interface AttemptResultRepository extends JpaRepository<AttemptResult, St
     List<AttemptResult> findByUserId(String userId);
 
     List<AttemptResult> findByTestId(String testId);
+
+    List<AttemptResult> findByTestIdAndUserId(String testId, String userId);
 }

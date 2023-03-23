@@ -100,6 +100,14 @@ public class AttemptServiceImpl implements AttemptService {
                 .stream().map(this::mapAttemptResultToAttemptResultDto).collect(Collectors.toList());
     }
 
+    @Override
+    public List<AttemptResultDto> getAttempts(String testId, String userId) {
+        log.debug("Get attempts by test {} and user {}", testId, userId);
+
+        return attemptRepository.findByTestIdAndUserId(testId, userId)
+                .stream().map(this::mapAttemptResultToAttemptResultDto).collect(Collectors.toList());
+    }
+
     private Set<AttemptQuestion> checkQuestionsAnswers(Set<QuestionDto> questions, List<AttemptQuestionDto> attemptQuestions) {
         return questions.stream()
                 .map(question -> checkQuestionAnswer(question, attemptQuestions))

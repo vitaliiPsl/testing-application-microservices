@@ -378,6 +378,26 @@ class AttemptServiceImplTest {
         assertThat(res, hasSize(2));
     }
 
+    @org.junit.jupiter.api.Test
+    void whenGetAttemptByTestIdAndUserId_thenReturnAttempts() {
+        // given
+        String testId = "qwer-1234";
+        String userId = "1234-qwer";
+
+        List<AttemptResult> attempts = List.of(
+                AttemptResult.builder().id("1234").testId(testId).userId(userId).score(10).build(),
+                AttemptResult.builder().id("4321").testId(testId).userId(userId).score(10).build()
+        );
+
+        // when
+        when(attemptRepository.findByTestIdAndUserId(testId, userId)).thenReturn(attempts);
+        List<AttemptResultDto> res = attemptService.getAttempts(testId, userId);
+
+        // then
+        verify(attemptRepository).findByTestIdAndUserId(testId, userId);
+        assertThat(res, hasSize(2));
+    }
+
     private TestDto buildTest(String id) {
         QuestionDto question1 = QuestionDto.builder()
                 .id(1L)

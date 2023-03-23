@@ -39,4 +39,12 @@ public interface AttemptService {
      * @return list of attempts
      */
     List<AttemptResultDto> getAttemptsByUserId(String userId);
+
+    /**
+     * Get attempts by ids of the test and user
+     * @param testId if of the tests
+     * @param userId id of the user
+     * @return list of attempts
+     */
+    List<AttemptResultDto> getAttempts(String testId, String userId);
 }

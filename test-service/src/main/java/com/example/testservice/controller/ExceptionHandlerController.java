@@ -4,7 +4,6 @@ import com.example.testservice.exception.ResourceNotFoundException;
 import com.example.testservice.exception.RestTemplateException;
 import com.example.testservice.payload.ApiErrorDto;
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
@@ -23,8 +22,6 @@ import static org.springframework.http.HttpStatus.*;
 @RequiredArgsConstructor
 @RestControllerAdvice
 public class ExceptionHandlerController {
-    private final ObjectMapper objectMapper;
-
     @ExceptionHandler(BadCredentialsException.class)
     public ResponseEntity<ApiErrorDto> handleAuthenticationException(BadCredentialsException e) {
         log.error("Handle bad credentials exception: {}", e.getMessage(), e);
@@ -70,8 +67,7 @@ public class ExceptionHandlerController {
     public ResponseEntity<ApiErrorDto> handleServerException(RestTemplateException e) throws JsonProcessingException {
         log.error("Handle rest template exception: {}", e.getMessage(), e);
 
-        ApiErrorDto apiErrorDto = objectMapper.readValue(e.getMessage(), ApiErrorDto.class);
-        return buildResponseEntity(apiErrorDto);
+        return buildResponseEntity(new ApiErrorDto(e.getStatus(), e.getMessage()));
     }
 
     private ResponseEntity<ApiErrorDto> buildResponseEntity(ApiErrorDto apiError) {

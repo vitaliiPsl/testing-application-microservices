@@ -1,0 +1,13 @@
+spring:
+  datasource:
+    url: jdbc:postgresql://localhost:5433/attempts-db
+    username: root
+    password: root
+  jpa:
+    hibernate:
+      ddl-auto: update
+server:
+  port: 0
+
+tests:
+  test-url: http://test-service/api/tests/

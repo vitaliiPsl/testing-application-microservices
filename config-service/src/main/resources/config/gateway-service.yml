@@ -6,3 +6,6 @@ spring:
       discovery.locator:
         enabled: true
         lowerCaseServiceId: true
+eureka:
+  client:
+    registry-fetch-interval-seconds: 10

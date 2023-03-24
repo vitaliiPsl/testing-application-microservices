@@ -19,4 +19,4 @@ security:
     # token expires in 7 days
     token-expiration-time-min: 10080
 server:
-  port: 8111
+  port: 0

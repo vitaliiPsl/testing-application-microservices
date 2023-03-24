@@ -18,6 +18,7 @@ public class WebSecurityConfig {
         http.cors().and().csrf().disable();
 
         http.authorizeRequests()
+                .antMatchers("/actuator/**").permitAll()
                 .antMatchers("/api/auth/**").permitAll()
                 .anyRequest().authenticated();
 

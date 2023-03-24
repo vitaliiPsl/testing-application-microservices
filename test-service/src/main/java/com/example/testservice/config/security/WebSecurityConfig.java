@@ -25,6 +25,7 @@ public class WebSecurityConfig {
         http.cors().and().csrf().disable();
 
         http.authorizeRequests()
+                .antMatchers("/actuator/**").permitAll()
                 .antMatchers(HttpMethod.POST, "/api/tests").hasRole("EDUCATOR")
                 .antMatchers(HttpMethod.PUT, "/api/tests").hasRole("EDUCATOR")
                 .antMatchers(HttpMethod.DELETE, "/api/tests").hasRole("EDUCATOR")

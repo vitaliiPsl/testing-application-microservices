@@ -63,5 +63,15 @@ services:
       ELASTICSEARCH_PASSWORD: changeme
     ports:
       - "5601:5601"
+  redis:
+    image: redis
+    container_name: redis-cache
+    ports:
+      - "6379:6379"
+  redisinsight:
+    image: redislabs/redisinsight
+    container_name: redis-insight
+    ports:
+      - '8001:8001'
 volumes:
   esdata1:

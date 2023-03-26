@@ -11,6 +11,9 @@ import com.example.subjectservice.service.SubjectService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.CachePut;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -26,6 +29,7 @@ public class SubjectServiceImpl implements SubjectService {
     private final SubjectRepository subjectRepository;
     private final ModelMapper mapper;
 
+    @CachePut(value = "subjects", key = "#{result.id}")
     @Override
     public SubjectDto saveSubject(SubjectDto req, UserDto user) {
         log.debug("Save subject: {}", req);
@@ -42,6 +46,7 @@ public class SubjectServiceImpl implements SubjectService {
         return mapSubjectToSubjectDto(subject);
     }
 
+    @CachePut(value = "subjects", key = "#{result.id}")
     @Override
     public SubjectDto updateSubject(String subjectId, SubjectDto req, UserDto user) {
         log.debug("Update subject with id {}. New data: {}", subjectId, req);
@@ -65,6 +70,7 @@ public class SubjectServiceImpl implements SubjectService {
         return mapSubjectToSubjectDto(subject);
     }
 
+    @CacheEvict(value = "subjects", key = "#subjectId")
     @Override
     public void deleteSubject(String subjectId, UserDto user) {
         log.debug("Delete subject with id {}", subjectId);
@@ -81,6 +87,7 @@ public class SubjectServiceImpl implements SubjectService {
         subjectRepository.delete(subject);
     }
 
+    @Cacheable(value = "subjects", key = "#subjectId")
     @Override
     public SubjectDto getSubjectById(String subjectId) {
         log.debug("Get subject with id {}", subjectId);

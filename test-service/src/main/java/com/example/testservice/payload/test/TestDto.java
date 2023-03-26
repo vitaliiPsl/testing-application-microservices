@@ -18,22 +18,17 @@ import java.util.Set;
 @AllArgsConstructor
 public class TestDto {
 
-    @JsonProperty(access = JsonProperty.Access.READ_ONLY)
     private String id;
 
-    @JsonProperty(access = JsonProperty.Access.READ_WRITE)
     @NotBlank(message = "Id of the subject is required")
     private String subjectId;
 
-    @JsonProperty(access = JsonProperty.Access.READ_ONLY)
     private String educatorId;
 
-    @JsonProperty(access = JsonProperty.Access.READ_WRITE)
     @NotBlank(message = "Test name is required")
     @Length(max = 255, message = "Test name must be up to 512 characters")
     private String name;
 
-    @JsonProperty(access = JsonProperty.Access.READ_WRITE)
     @Size(min = 2, message = "Test must contain at least two distinct questions")
     private Set<QuestionDto> questions;
 

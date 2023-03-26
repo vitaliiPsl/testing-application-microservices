@@ -16,6 +16,9 @@ import com.example.testservice.service.TestService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.CachePut;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -37,13 +40,14 @@ public class TestServiceImpl implements TestService {
 
     private final ModelMapper mapper;
 
+    @CachePut(value = "tests", key = "#{result.id}")
     @Override
     public TestDto saveTest(TestDto req, UserDto user) {
         log.debug("Save test {}", req);
 
         // get subject
         SubjectDto subject = subjectClient.getSubjectById(req.getSubjectId());
-        if(!subject.getEducatorId().equals(user.getId())) {
+        if (!subject.getEducatorId().equals(user.getId())) {
             log.error("User is not an educator of the subject {}", subject.getId());
             throw new IllegalStateException("User is not an educator of the subject");
         }
@@ -60,6 +64,7 @@ public class TestServiceImpl implements TestService {
         return mapTestToTestDto(test);
     }
 
+    @CachePut(value = "tests", key = "#{result.id}")
     @Override
     public TestDto updateTest(String testId, TestDto req, UserDto user) {
         log.debug("Update test with id {}. Update data: {}", testId, req);
@@ -69,7 +74,7 @@ public class TestServiceImpl implements TestService {
                 .orElseThrow(() -> new ResourceNotFoundException("test", "id", testId));
 
         // verify that user is the educator of the test subject
-        if(!test.getEducatorId().equals(user.getId())) {
+        if (!test.getEducatorId().equals(user.getId())) {
             log.error("User is not an educator of the subject: {}", test.getSubjectId());
             throw new ForbiddenException("Not an educator of the subject: " + test.getSubjectId());
         }
@@ -87,6 +92,7 @@ public class TestServiceImpl implements TestService {
         return mapTestToTestDto(test);
     }
 
+    @CacheEvict(value = "tests", key = "#testId")
     @Override
     public void deleteTest(String testId, UserDto user) {
         log.debug("Delete test with id {}", testId);
@@ -96,7 +102,7 @@ public class TestServiceImpl implements TestService {
                 .orElseThrow(() -> new ResourceNotFoundException("test", "id", testId));
 
         // verify that user is the educator of the test subject
-        if(!test.getEducatorId().equals(user.getId())) {
+        if (!test.getEducatorId().equals(user.getId())) {
             log.error("User is not an educator of the subject: {}", test.getSubjectId());
             throw new ForbiddenException("Not an educator of the subject: " + test.getSubjectId());
         }
@@ -104,6 +110,7 @@ public class TestServiceImpl implements TestService {
         testRepository.delete(test);
     }
 
+    @Cacheable(value = "tests", key = "#testId")
     @Override
     public TestDto getTestById(String testId) {
         log.debug("Get test with id: {}", testId);
@@ -120,16 +127,6 @@ public class TestServiceImpl implements TestService {
 
         return testRepository.findBySubjectId(subjectId)
                 .stream().map(this::mapTestToTestDto).collect(Collectors.toList());
-    }
-
-    private static Test createTest(TestDto testDto, SubjectDto subject) {
-        return Test.builder()
-                .subjectId(subject.getId())
-                .educatorId(subject.getEducatorId())
-                .name(testDto.getName())
-                .createdAt(LocalDateTime.now())
-                .updatedAt(LocalDateTime.now())
-                .build();
     }
 
     private Set<Question> createQuestions(Set<QuestionDto> questionDtos) {
@@ -168,6 +165,16 @@ public class TestServiceImpl implements TestService {
         return Option.builder()
                 .option(optionDto.getOption())
                 .correct(optionDto.isCorrect())
+                .build();
+    }
+
+    private static Test createTest(TestDto testDto, SubjectDto subject) {
+        return Test.builder()
+                .subjectId(subject.getId())
+                .educatorId(subject.getEducatorId())
+                .name(testDto.getName())
+                .createdAt(LocalDateTime.now())
+                .updatedAt(LocalDateTime.now())
                 .build();
     }
 

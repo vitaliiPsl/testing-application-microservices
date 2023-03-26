@@ -21,6 +21,7 @@ public class RestTemplateResponseErrorHandler implements ResponseErrorHandler {
     @Override
     public void handleError(ClientHttpResponse httpResponse) throws IOException {
         String message = new String(httpResponse.getBody().readAllBytes());
+        log.error("Rest template error: {}", message);
 
         throw new RestTemplateException(message, httpResponse.getStatusCode());
     }

@@ -18,6 +18,8 @@ import com.example.attemptservice.service.AttemptService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
+import org.springframework.cache.annotation.CachePut;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -38,6 +40,7 @@ public class AttemptServiceImpl implements AttemptService {
     private final TestClient testClient;
     private final ModelMapper mapper;
 
+    @CachePut(value = "attempts", key = "#{result.id}")
     @Override
     public AttemptResultDto processAttempt(AttemptDto attemptDto, UserDto user) {
         log.debug("Process attempt of the test with id {}. Attempt details: {}", attemptDto.getTestId(), attemptDto);
@@ -74,6 +77,7 @@ public class AttemptServiceImpl implements AttemptService {
         return mapAttemptResultToAttemptResultDto(attempt);
     }
 
+    @Cacheable(value = "attempts", key = "#attemptId")
     @Override
     public AttemptResultDto getAttemptById(String attemptId) {
         log.debug("Get attempt by id {}", attemptId);

@@ -1,6 +1,5 @@
 package com.example.attemptservice.payload.attempt;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -15,23 +14,17 @@ import java.util.Set;
 @NoArgsConstructor
 @AllArgsConstructor
 public class AttemptResultDto {
-    @JsonProperty(access = JsonProperty.Access.READ_ONLY)
     private String id;
 
-    @JsonProperty(access = JsonProperty.Access.READ_ONLY)
     private String userId;
 
-    @JsonProperty(access = JsonProperty.Access.READ_ONLY)
     private String testId;
 
-    @JsonProperty(access = JsonProperty.Access.READ_WRITE)
     private Set<AttemptQuestionDto> attemptQuestions = new HashSet<>();
 
-    @JsonProperty(access = JsonProperty.Access.READ_ONLY)
     private Integer score;
 
     private Integer maxScore;
 
-    @JsonProperty(access = JsonProperty.Access.READ_ONLY)
     private LocalDateTime createdAt;
 }

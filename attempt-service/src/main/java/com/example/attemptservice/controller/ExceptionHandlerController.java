@@ -69,6 +69,13 @@ public class ExceptionHandlerController {
         return buildResponseEntity(new ApiErrorDto(e.getStatus(), e.getMessage()));
     }
 
+    @ExceptionHandler(RuntimeException.class)
+    protected ResponseEntity<ApiErrorDto> handleRuntimeException(RuntimeException e) {
+        log.error("handle runtime exception: {}", e.getMessage(), e);
+
+        return buildResponseEntity(new ApiErrorDto(INTERNAL_SERVER_ERROR, e.getMessage(), e));
+    }
+
     private ResponseEntity<ApiErrorDto> buildResponseEntity(ApiErrorDto apiError) {
         return new ResponseEntity<>(apiError, apiError.getStatus());
     }

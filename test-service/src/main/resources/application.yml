@@ -2,5 +2,5 @@ spring:
   application:
     name: test-service
   config:
-    import: optional:configserver:http://localhost:8071
+    import: optional:configserver:${CONFIG_SERVICE_URL:http://localhost:8071}
 

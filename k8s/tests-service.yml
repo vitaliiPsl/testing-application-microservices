@@ -1,0 +1,36 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: tests-service
+spec:
+  selector:
+    matchLabels:
+      app: tests-service
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: tests-service
+    spec:
+      containers:
+        - name: tests-service
+          image: vitaliipsl/testing-test-service:3
+          ports:
+            - containerPort: 8080
+          env:
+          - name: CONFIG_SERVICE_URL
+            value: http://config-service:8071
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: tests-service
+spec:
+  selector:
+    app: tests-service
+  type: LoadBalancer
+  ports:
+    - name: http
+      port: 8082
+      targetPort: 8080
+      nodePort: 30004

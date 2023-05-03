@@ -1,0 +1,38 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: tests-db-postgres
+spec:
+  selector:
+    matchLabels:
+      app: tests-db-postgres
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: tests-db-postgres
+    spec:
+      containers:
+        - name: tests-db-postgres
+          image: postgres
+          ports:
+            - containerPort: 5432
+          env:
+            - name: POSTGRES_USER
+              value: root
+            - name: POSTGRES_PASSWORD
+              value: root
+            - name: POSTGRES_DB
+              value: tests-db
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: tests-db-postgres
+spec:
+  selector:
+    app: tests-db-postgres
+  ports:
+    - name: http
+      port: 5432
+      targetPort: 5432

@@ -1,0 +1,38 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: attempts-db-postgres
+spec:
+  selector:
+    matchLabels:
+      app: attempts-db-postgres
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: attempts-db-postgres
+    spec:
+      containers:
+        - name: attempts-db-postgres
+          image: postgres
+          ports:
+            - containerPort: 5432
+          env:
+            - name: POSTGRES_USER
+              value: root
+            - name: POSTGRES_PASSWORD
+              value: root
+            - name: POSTGRES_DB
+              value: attempts-db
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: attempts-db-postgres
+spec:
+  selector:
+    app: attempts-db-postgres
+  ports:
+    - name: http
+      port: 5433
+      targetPort: 5432

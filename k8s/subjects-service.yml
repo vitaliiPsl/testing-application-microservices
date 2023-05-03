@@ -1,0 +1,36 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: subjects-service
+spec:
+  selector:
+    matchLabels:
+      app: subjects-service
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: subjects-service
+    spec:
+      containers:
+        - name: subjects-service
+          image: vitaliipsl/testing-subject-service:3
+          ports:
+            - containerPort: 8080
+          env:
+          - name: CONFIG_SERVICE_URL
+            value: http://config-service:8071
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: subjects-service
+spec:
+  selector:
+    app: subjects-service
+  type: LoadBalancer
+  ports:
+    - name: http
+      port: 8081
+      targetPort: 8080
+      nodePort: 30003

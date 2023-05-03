@@ -1,7 +1,7 @@
 spring:
   data:
     mongodb:
-      host: localhost
+      host: subjects-db-mongodb
       port: 27018
       username: root
       password: root
@@ -9,7 +9,7 @@ spring:
       authentication-database: admin
       auto-index-creation: true
   redis:
-    host: localhost
+    host: redis
     port: 6379
 server:
-  port: 0
+  port: 8080

@@ -1,16 +1,16 @@
 spring:
   datasource:
-    url: jdbc:postgresql://localhost:5433/attempts-db
+    url: jdbc:postgresql://attempts-db-postgres:5433/attempts-db
     username: root
     password: root
   jpa:
     hibernate:
       ddl-auto: update
   redis:
-    host: localhost
+    host: redis
     port: 6379
 server:
-  port: 0
+  port: 8080
 
 tests:
   test-url: http://test-service/api/tests/

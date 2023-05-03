@@ -29,7 +29,7 @@ public class SubjectServiceImpl implements SubjectService {
     private final SubjectRepository subjectRepository;
     private final ModelMapper mapper;
 
-    @CachePut(value = "subjects", key = "#{result.id}")
+    @CachePut(value = "subjects", key = "#result.id")
     @Override
     public SubjectDto saveSubject(SubjectDto req, UserDto user) {
         log.debug("Save subject: {}", req);
@@ -46,7 +46,7 @@ public class SubjectServiceImpl implements SubjectService {
         return mapSubjectToSubjectDto(subject);
     }
 
-    @CachePut(value = "subjects", key = "#{result.id}")
+    @CachePut(value = "subjects", key = "#result.id")
     @Override
     public SubjectDto updateSubject(String subjectId, SubjectDto req, UserDto user) {
         log.debug("Update subject with id {}. New data: {}", subjectId, req);

@@ -40,7 +40,7 @@ public class TestServiceImpl implements TestService {
 
     private final ModelMapper mapper;
 
-    @CachePut(value = "tests", key = "#{result.id}")
+    @CachePut(value = "tests", key = "#result.id")
     @Override
     public TestDto saveTest(TestDto req, UserDto user) {
         log.debug("Save test {}", req);
@@ -64,7 +64,7 @@ public class TestServiceImpl implements TestService {
         return mapTestToTestDto(test);
     }
 
-    @CachePut(value = "tests", key = "#{result.id}")
+    @CachePut(value = "tests", key = "#result.id")
     @Override
     public TestDto updateTest(String testId, TestDto req, UserDto user) {
         log.debug("Update test with id {}. Update data: {}", testId, req);

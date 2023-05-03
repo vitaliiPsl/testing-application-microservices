@@ -40,7 +40,7 @@ public class AttemptServiceImpl implements AttemptService {
     private final TestClient testClient;
     private final ModelMapper mapper;
 
-    @CachePut(value = "attempts", key = "#{result.id}")
+    @CachePut(value = "attempts", key = "#result.id")
     @Override
     public AttemptResultDto processAttempt(AttemptDto attemptDto, UserDto user) {
         log.debug("Process attempt of the test with id {}. Attempt details: {}", attemptDto.getTestId(), attemptDto);
